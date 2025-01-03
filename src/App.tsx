@@ -1,5 +1,12 @@
+import { Button } from './components/ui/button';
+import './index.css';
+
 function App() {
-  return <h1>Hello!</h1>;
+  return (
+    <div>
+      <Button>Enviar</Button>
+    </div>
+  );
 }
 
 export default App;
