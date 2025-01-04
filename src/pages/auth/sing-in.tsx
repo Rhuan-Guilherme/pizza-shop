@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -23,10 +24,20 @@ export function SingIn() {
   })
 
   async function handleSingIn(data: SingInType) {
-    console.log(data)
+    try {
+      console.log(data)
 
-    // eslint-disable-next-line promise/param-names
-    await new Promise((resolver) => setTimeout(resolver, 2000))
+      // eslint-disable-next-line promise/param-names
+      await new Promise((resolver) => setTimeout(resolver, 2000))
+      toast.success('Enviamos um link de autenticação para o seu e-mail.', {
+        action: {
+          label: 'Reenviar',
+          onClick: () => handleSingIn(data),
+        },
+      })
+    } catch (error) {
+      toast.error('Crendenciais inválidas!')
+    }
   }
 
   return (
