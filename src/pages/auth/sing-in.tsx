@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { singIn } from '@/api/sing-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -24,12 +26,13 @@ export function SingIn() {
     resolver: zodResolver(singInForm),
   })
 
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: singIn,
+  })
+
   async function handleSingIn(data: SingInType) {
     try {
-      console.log(data)
-
-      // eslint-disable-next-line promise/param-names
-      await new Promise((resolver) => setTimeout(resolver, 2000))
+      await authenticate({ email: data.email })
       toast.success('Enviamos um link de autenticação para o seu e-mail.', {
         action: {
           label: 'Reenviar',
